@@ -1,0 +1,36 @@
+.toolbar {
+  margin-bottom: 1em;
+}
+.list-item-group {
+  position: relative;
+}
+.list-group-item:hover {
+  cursor: pointer;
+}
+.list-group-item.unread {
+  background: #eeefff;
+  font-weight: bold;
+}
+.list-group-item.selected {
+  background: #ffffaa;
+}
+.list-group-item.current {
+  color: FireBrick;
+}
+.list-group-item.current:after {
+  position: absolute;
+  right: -1.6em;
+  top: 0.8em;
+  content: "\25b6";
+}
+.list-group-item .checkboxer {
+  max-width: 2em;
+}
+.list-group-item .author {
+  max-width: 12em;
+}
+#list-container .author, #list-container .subject {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

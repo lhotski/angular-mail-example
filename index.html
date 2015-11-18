@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html ng-app="AngmailApp">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/angmail.css">
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-resource.min.js"></script>
+    <script src="js/angmail.js"></script>
+  </head>
+  <body>
+    <div class="container" ng-controller="ListController">
+      <h1>Mail control</h1>
+      <div class="toolbar" ng-show="messages.length">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default"
+              ng-show="!totalChecked || totalChecked < messages.length"
+              ng-click="checkAll()">Check all</button>
+          <button type="button" class="btn btn-default"
+              ng-show="totalChecked"
+              ng-click="checkAll(false)">Uncheck all</button>
+          <button type="button" class="btn btn-default"
+              ng-show="totalChecked"
+              ng-click="readChecked()">Mark as read</button>
+          <button type="button" class="btn btn-default"
+              ng-confirm-click
+              ng-click="deleteChecked()"
+              ng-show="totalChecked">Delete</button>
+        </div>
+      </div>
+      <div class="row">
+        <div id="list-container"
+            ng-class="{'col-xs-7': currentMessage, 'col-xs-12': !currentMessage}">
+          <div class="panel panel-default" ng-show="!messages.length">
+            <div class="panel-body">No messages</div>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item"
+                ng-repeat="message in messages"
+                ng-class="{unread: message.unread, selected: message.selected, current: message.id == currentMessage.id}"
+                ng-click="preview($index)">
+              <div class="row message-container">
+                <div class="col-xs-1 checkboxer">
+                  <input type="checkbox" ng-model="message.selected" ng-change="countChecked()" ng-click="$event.stopPropagation()">
+                </div>
+                <div class="col-xs-3 author">{{message.author}}</div>
+                <div class="col-xs-8 subject">{{message.subject}}</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-xs-5" ng-show="currentMessage && messages && messages.length">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <b>{{currentMessage.author}}</b>
+              <div class="pull-right"><em>{{currentMessage.created_at}}</em></div>
+            </div>
+            <div class="panel-body">
+              <p class="lead">{{currentMessage.subject}}</p>
+              <p>{{currentMessage.body}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
